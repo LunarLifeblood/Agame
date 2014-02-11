@@ -57,7 +57,7 @@ public class Physics {
 		if(map.getAtPos(player.getPosX(), newPos+player.getRadius()) == 1 | map.getAtPos(player.getPosX(), newPos-player.getRadius()) == 1){
 
 			float edge = map.getClosestEdge(y0);
-			if(edge>newPos){
+			if(edge>newPos+player.getRadius()){
 				player.setVelocityY(0.0f);
 				return edge-player.getRadius();
 			}else if(edge<newPos){
