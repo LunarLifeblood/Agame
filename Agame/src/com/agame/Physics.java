@@ -63,8 +63,6 @@ public class Physics {
 			}else if(edge<newPos){
 				//player.setVelocityY(0.0f);
 				return edge+player.getRadius();
-			}else{
-				System.err.println("Uh oh!!!!");
 			}
 		}
 		if(newPos == 0) newPos = 0.0000001f;

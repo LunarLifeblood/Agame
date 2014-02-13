@@ -9,6 +9,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 import javax.media.opengl.GL;
@@ -24,15 +30,13 @@ public class AGameMain implements GLEventListener, KeyListener {
 	Constants constant = new Constants();
 	
 	
-	//other
+	
 	private float jumpSpeed = 0.2f;
 	private float moveSpeed = 0.1f;
 	private long timeCount = 0;
 	private long lastTime = 0;
 
-	//2d
 	private TwoDMap map;
-
 	private int twoDMapSize = 20;
 	private float sqrSize = (float)(2.0/twoDMapSize);
 	private Player player = new Player(sqrSize/2f, -0.9f, 0f, 0f);
@@ -40,7 +44,7 @@ public class AGameMain implements GLEventListener, KeyListener {
 		
 		
 	public AGameMain(){
-			map = new TwoDMap(twoDMapSize, (float) (2.0/twoDMapSize));
+			map = new TwoDMap(twoDMapSize, sqrSize);
 			for(int i = 0; i< twoDMapSize; i++){
 				for(int j = 0; j<twoDMapSize; j++){
 					map.set(i, j, 1);
@@ -54,9 +58,20 @@ public class AGameMain implements GLEventListener, KeyListener {
 			}
 			map.set(10, 9, 1);
 			map.set(4, 9, 1);
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter("one.dat"));
+				bw.write("woo");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 
 		lastTime = System.currentTimeMillis();
+	}
+	
+	public void loadLevel(String level){
+		map = new TwoDMap(twoDMapSize, sqrSize);
 	}
 	
 	public static void main(String[] args) {
@@ -132,8 +147,6 @@ public class AGameMain implements GLEventListener, KeyListener {
         	timeCount = 0;
         	update2DPositions();
         }
-        System.out.println("Y Velocity = "+player.getVelocityY());
-        
 		map.render2DMap(drawable);
 		player.render2DPlayer(drawable);
 		lastTime = System.currentTimeMillis();
