@@ -1,21 +1,15 @@
 package com.agame;
 
-import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
-import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
-import static javax.media.opengl.GL2GL3.GL_QUADS;
-
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Random;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
@@ -27,9 +21,8 @@ import javax.media.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
 
 public class AGameMain implements GLEventListener, KeyListener {
+	
 	Constants constant = new Constants();
-	
-	
 	
 	private float jumpSpeed = 0.2f;
 	private float moveSpeed = 0.1f;
@@ -44,34 +37,50 @@ public class AGameMain implements GLEventListener, KeyListener {
 		
 		
 	public AGameMain(){
-			map = new TwoDMap(twoDMapSize, sqrSize);
-			for(int i = 0; i< twoDMapSize; i++){
-				for(int j = 0; j<twoDMapSize; j++){
-					map.set(i, j, 1);
-				}
-			}
-			for(int i = 0; i<twoDMapSize; i++){
-				map.set(i, 9, 0);
-				map.set(i, 10, 0);
-				map.set(i, 11, 0);
-				map.set(i, 12, 0);
-			}
-			map.set(10, 9, 1);
-			map.set(4, 9, 1);
-			try {
-				BufferedWriter bw = new BufferedWriter(new FileWriter("one.dat"));
-				bw.write("woo");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-
-		lastTime = System.currentTimeMillis();
+//			map = new TwoDMap(twoDMapSize, sqrSize);
+//			for(int i = 0; i< twoDMapSize; i++){
+//				for(int j = 0; j<twoDMapSize; j++){
+//					map.set(i, j, 1);
+//			}
+//			}
+//			for(int i = 0; i<twoDMapSize; i++){
+//				map.set(i, 9, 0);
+//				map.set(i, 10, 0);
+//				map.set(i, 11, 0);
+//				map.set(i, 12, 0);
+//			}
+//			map.set(10, 9, 1);
+//			map.set(4, 9, 1);
+//		lastTime = System.currentTimeMillis();
+		loadLevel("1");
 	}
 	
 	public void loadLevel(String level){
+		String filename = level+".dat";
+		File file = new File(filename);
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(file));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.err.println("Could not load level, quitting.");
+			System.exit(0);
+		}
 		map = new TwoDMap(twoDMapSize, sqrSize);
+		for(int i = 0; i< twoDMapSize; i++){
+			for(int j = 0; j<twoDMapSize; j++){
+				try {
+					map.set(i, j, Integer.parseInt(br.readLine()));
+				} catch (NumberFormatException e) {
+					System.err.println("Invalid format in level file");
+					e.printStackTrace();
+				} catch (IOException e) {
+					System.err.println("Could not read file");
+					e.printStackTrace();
+				}
+			}
+		}
+	lastTime = System.currentTimeMillis();
 	}
 	
 	public static void main(String[] args) {
@@ -97,13 +106,12 @@ public class AGameMain implements GLEventListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent event) {
-		// TODO Auto-generated method stub
         char key = event.getKeyChar();
         if (key == ' ') {
         	if(Math.abs(player.getVelocityY()) == 0.0){
         		player.increaseVelocityY(jumpSpeed);
         	}
-        }else if(key == 'w' | event.getKeyCode() == KeyEvent.VK_UP){  ////Something dodgy with arrow keys...they don't act like wasd exactly when held
+        }else if(key == 'w' | event.getKeyCode() == KeyEvent.VK_UP){
         	if(Math.abs(player.getVelocityY()) == 0.0){
         		player.increaseVelocityY(jumpSpeed);
         	}
@@ -118,7 +126,6 @@ public class AGameMain implements GLEventListener, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		// TODO Auto-generated method stub
         char key = event.getKeyChar();
         if (key == ' ') {
         }else if(key == 'w' | event.getKeyCode() == KeyEvent.VK_UP){
@@ -133,13 +140,11 @@ public class AGameMain implements GLEventListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent event) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void display(GLAutoDrawable drawable) {
-			// TODO Auto-generated method stub
 		GL2 gl = drawable.getGL().getGL2();
         gl.glClear( GL.GL_COLOR_BUFFER_BIT );
         timeCount = timeCount + (System.currentTimeMillis() - lastTime);
@@ -154,21 +159,17 @@ public class AGameMain implements GLEventListener, KeyListener {
 
 	@Override
 	public void dispose(GLAutoDrawable arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void init(GLAutoDrawable arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3,
 			int arg4) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 
@@ -179,6 +180,14 @@ public class AGameMain implements GLEventListener, KeyListener {
 		if (player.getVelocityY() != 0){
 			player.setPosY(physics.calcYPos(player.getPosY(), player.getVelocityY(), player, map));
 			if(player.getVelocityY() != 0) player.setVelocityY(physics.calcYVel(player.getVelocityY()));
+		}
+		if (player.getVelocityY() == 0){
+			if (map.getAtPos(player.getPosX() ,(float) (player.getPosY()-(0.05*sqrSize))) == 0){
+				player.setVelocityY(physics.calcYVel(player.getVelocityY()));
+				player.setPosY(physics.calcYPos(player.getPosY(), player.getVelocityY(), player, map));
+				if(player.getVelocityY() != 0) player.setVelocityY(physics.calcYVel(player.getVelocityY()));
+				
+			}
 		}
 	}
 }
