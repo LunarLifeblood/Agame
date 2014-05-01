@@ -32,26 +32,11 @@ public class AGameMain implements GLEventListener, KeyListener {
 	private TwoDMap map;
 	private int twoDMapSize = 20;
 	private float sqrSize = (float)(2.0/twoDMapSize);
-	private Player player = new Player(sqrSize/2f, -0.9f, 0f, 0f);
+	private Player player = new Player(sqrSize/2f, 0.5f, 0f, 0f);
 	private Physics physics = new Physics();
 		
 		
 	public AGameMain(){
-//			map = new TwoDMap(twoDMapSize, sqrSize);
-//			for(int i = 0; i< twoDMapSize; i++){
-//				for(int j = 0; j<twoDMapSize; j++){
-//					map.set(i, j, 1);
-//			}
-//			}
-//			for(int i = 0; i<twoDMapSize; i++){
-//				map.set(i, 9, 0);
-//				map.set(i, 10, 0);
-//				map.set(i, 11, 0);
-//				map.set(i, 12, 0);
-//			}
-//			map.set(10, 9, 1);
-//			map.set(4, 9, 1);
-//		lastTime = System.currentTimeMillis();
 		loadLevel("1");
 	}
 	
@@ -66,19 +51,30 @@ public class AGameMain implements GLEventListener, KeyListener {
 			System.err.println("Could not load level, quitting.");
 			System.exit(0);
 		}
+		try {
+			twoDMapSize = Integer.parseInt(br.readLine());
+		} catch (Exception ex) {
+			System.err.println("Invalid file format\nCould not read map size.");
+		}
 		map = new TwoDMap(twoDMapSize, sqrSize);
+		
 		for(int i = 0; i< twoDMapSize; i++){
 			for(int j = 0; j<twoDMapSize; j++){
-				try {
-					map.set(i, j, Integer.parseInt(br.readLine()));
-				} catch (NumberFormatException e) {
-					System.err.println("Invalid format in level file");
-					e.printStackTrace();
-				} catch (IOException e) {
-					System.err.println("Could not read file");
-					e.printStackTrace();
-				}
+				map.set(i, j, 1);
 			}
+		}
+		
+		
+		String coords;
+		String[] coordValue = new String[3];
+		try {
+			while ((coords = br.readLine()) != null) {
+				coordValue = coords.split(",");
+				map.set(Integer.parseInt(coordValue[0]), Integer.parseInt(coordValue[1]), Integer.parseInt(coordValue[2]));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	lastTime = System.currentTimeMillis();
 	}

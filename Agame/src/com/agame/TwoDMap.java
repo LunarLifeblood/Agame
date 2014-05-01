@@ -53,6 +53,19 @@ public class TwoDMap {
 					gl.glVertex3f((m+1)*sqrSize, n*sqrSize, 0f);
 					gl.glEnd();
 				}
+				if(get(i, j) == 2){
+					m = i-gridSize/2f;
+					n = j-gridSize/2f;
+					gl.glBegin(GL2.GL_QUADS);
+					gl.glColor3f(0.3f, 0.6f, 0.6f);
+					gl.glVertex3f((m+1)*sqrSize,(n+1)*sqrSize, 0f);
+					gl.glVertex3f(m*sqrSize, (n+1)*sqrSize, 0f);
+					gl.glVertex3f(m*sqrSize, n*sqrSize, 0f);
+					gl.glVertex3f((m+1)*sqrSize, n*sqrSize, 0f);
+					gl.glColor3f(0.3f, 0.2f, 0.2f);
+					gl.glEnd();
+				}
+				
 			}
 		}
 	}
