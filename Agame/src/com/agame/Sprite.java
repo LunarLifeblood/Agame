@@ -1,119 +1,89 @@
 package com.agame;
 
 public class Sprite {
-	private float posY = 0;
+	private Coordinate position = new Coordinate(0, 0);
 	private float radius = 0;
-	private float posX = 0;
-	private float posZ = 0;
-	private float velX = 0;
-	private float velY = 0;
-	private float velZ = 0;
+	private Coordinate velocity = new Coordinate(0, 0);
 	
-	public Sprite(float startRadius, float startPosX, float startPosZ, float startPosY){
+	public Sprite(float startRadius, float startPosX, float startPosY, float startPosZ){
 		radius = startRadius;
-		posX = startPosX;
-		posZ = startPosZ;
-		posY = startPosY;
+		this.getPosition().setX(startPosX);
+		this.getPosition().setY(startPosY);
+		this.getPosition().setZ(startPosZ);
+	}
+	
+	public Sprite(float startRadius, float startPosX, float startPosY){
+		radius = startRadius;
+		this.getPosition().setX(startPosX);
+		this.getPosition().setY(startPosY);
+	}
 		
-		
+	public void setPosX(float newPosX){
+		this.getPosition().setX(newPosX);
 	}
 	
 	public void setPosY(float newPosY){
-		posY = newPosY;
+		this.getPosition().setY(newPosY);
 	}
 	
-	public void increasePosY(float amount){
-		posY+=amount;
-	}
-	
-	public void decreasePosY(float amount){
-		posY-=amount;
-	}
-	
-	public void setPosX(float newPos){
-		posX = newPos;
-	}
-	
-	public void increasePosX(float amount){
-		posX+=amount;
-	}
-	
-	public void decreasePosX(float amount){
-		posX-=amount;
-	}
-
-	public void setPosZ(float newPos){
-		posZ = newPos;
-	}
-	
-	public void increasePosZ(float amount){
-		posZ+=amount;
-	}
-	
-	public void decreasePosZ(float amount){
-		posZ-=amount;
+	public void setPosZ(float newPosZ){
+		this.getPosition().setZ(newPosZ);
 	}
 	
 	public void setVelocityX(float newVelocity){
-		velX = newVelocity;
-	}
-	public void increaseVelocityX(float amount){
-		velX+=amount;
-	}
-	
-	public void decreaseVelocityX(float amount){
-		velX-=amount;
+		this.velocity.setX(newVelocity);
 	}
 	
 	public void setVelocityY(float newVelocity){
-		velY = newVelocity;
-	}
-	
-	public void increaseVelocityY(float amount){
-		velY+=amount;
-	}
-	
-	public void decreaseVelocityY(float amount){
-		velY-=amount;
+		this.velocity.setY(newVelocity);
 	}
 	
 	public void setVelocityZ(float newVelocity){
-		velZ = newVelocity;
+		this.velocity.setZ(newVelocity);
 	}
 
-	public void increaseVelocityZ(float amount){
-		velZ+=amount;
-	}
-	
-	public void decreaseVelocityZ(float amount){
-		velZ-=amount;
-	}
 	
 	public float getRadius(){
 		return radius;
 	}
 	
-	public float getPosY(){
-		return posY;
+	public float getPosX(){
+		return this.getPosition().getX();
 	}
 	
-	public float getPosX(){
-		return posX;
+	public float getPosY(){
+		return this.getPosition().getY();
 	}
 	
 	public float getPosZ(){
-		return posZ;
-	}
-	
-	public float getVelocityY(){
-		return velY;
+		return this.getPosition().getZ();
 	}
 	
 	public float getVelocityX(){
-		return velX;
+		return this.velocity.getX();
+	}
+	
+	public float getVelocityY(){
+		return this.velocity.getY();
 	}
 	
 	public float getVelocityZ(){
-		return velZ;
+		return this.velocity.getZ();
+	}
+
+	public Coordinate getPosition() {
+		return position;
+	}
+
+	public void setPosition(Coordinate position) {
+		this.position = position;
+	}
+	
+	public Coordinate getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Coordinate velocity) {
+		this.velocity = velocity;
 	}
 }

@@ -7,8 +7,12 @@ public class Player extends Sprite {
 	int health = 3;
 	boolean isAlive = true;
 
-	public Player(float startRadius, float startPosX, float startPosY, float startHeight){
-		super(startRadius, startPosX, startPosY, startHeight);
+	public Player(float startRadius, float startPosX, float startPosY, float startZ){
+		super(startRadius, startPosX, startPosY, startZ);
+	}
+	
+	public Player(float startRadius, float startPosX, float startPosY){
+		super(startRadius, startPosX, startPosY);
 	}
 	
 	public void decreaseHealth(int hpLoss){
@@ -32,7 +36,7 @@ public class Player extends Sprite {
             angle = 2 * Math.PI * i / 300;
             q = this.getRadius()*Math.cos(angle);
             r = this.getRadius()*Math.sin(angle);
-            gl.glVertex2d(q+this.getPosX(),r+this.getPosY());
+            gl.glVertex2d(q+this.getPosition().getX(),r+this.getPosition().getY());
         }
         gl.glEnd();
 	}
