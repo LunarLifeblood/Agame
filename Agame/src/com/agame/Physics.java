@@ -26,15 +26,34 @@ public class Physics {
 	public Coordinate makePossible(Coordinate newPos, Player player, TwoDMap map){
 		int numSurfacePoints = 2880;
 		float x, y;
+		if(newPos.getX() > 1- 1.01*player.getRadius()){
+			newPos.setX((float) (1-1.01*player.getRadius()));
+		}
+		if(newPos.getX() < -1+1.01*player.getRadius()){
+			newPos.setX((float) (-1+1.01*player.getRadius()));
+		}
+		if(newPos.getY() > 1-1.01*player.getRadius()){
+			newPos.setY((float) (1-1.01*player.getRadius()));
+		}
+		if(newPos.getY() < -1+1.01*player.getRadius()){
+			newPos.setY((float) (-1+1.01*player.getRadius()));
+		}
+		
+		
+		
+		
 		for (int i = 0; i < numSurfacePoints; i++){
 			x = (float) (player.getRadius()*Math.cos((i*2*Math.PI)/(numSurfacePoints))) + newPos.getX();
 			y = (float) (player.getRadius()*Math.sin((i*2*Math.PI)/(numSurfacePoints))) + newPos.getY();
+			
 			if(map.getAtPos(x, player.getPosY()) == 1){
 				float edge = map.getClosestEdge(newPos.getX());
 				if(edge>newPos.getX()){
 					newPos.setX(edge-player.getRadius());
+					player.setVelocityY((float) (0.5*player.getVelocityY()));
 				}else{
 					newPos.setX(edge+player.getRadius());
+					player.setVelocityY((float) (0.5*player.getVelocityY()));
 				}	
 				
 			}
@@ -43,22 +62,12 @@ public class Physics {
 				if(edge>y){
 					player.setVelocityY(0.0f);
 					newPos.setY(player.getPosY());
+				}else if(edge < y){
+					player.setVelocityY(0);
+					newPos.setY(edge - player.getRadius());
 				}
 			}
 						
-		}
-		
-		if(newPos.getX() > 1-player.getRadius()){
-			newPos.setX(1-player.getRadius());
-		}
-		if(newPos.getX() < -1+player.getRadius()){
-			newPos.setX(-1+player.getRadius());
-		}
-		if(newPos.getY() > 1-player.getRadius()){
-			newPos.setY(1-player.getRadius());
-		}
-		if(newPos.getY() < -1+player.getRadius()){
-			newPos.setY(-1+player.getRadius());
 		}
 		
 		

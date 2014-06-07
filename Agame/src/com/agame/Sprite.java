@@ -1,9 +1,12 @@
 package com.agame;
 
+import javax.media.opengl.GLAutoDrawable;
+
 public class Sprite {
 	private Coordinate position = new Coordinate(0, 0);
 	private float radius = 0;
 	private Coordinate velocity = new Coordinate(0, 0);
+	GLAutoDrawable drawable = null;
 	
 	public Sprite(float startRadius, float startPosX, float startPosY, float startPosZ){
 		radius = startRadius;
@@ -20,6 +23,10 @@ public class Sprite {
 		
 	public void setPosX(float newPosX){
 		this.getPosition().setX(newPosX);
+	}
+	
+	public void setDrawable(GLAutoDrawable draw){
+		drawable = draw;
 	}
 	
 	public void setPosY(float newPosY){

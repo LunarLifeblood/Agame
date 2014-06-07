@@ -24,7 +24,7 @@ public class AGameMain implements GLEventListener, KeyListener {
 
 	Constants constant = new Constants();
 
-	private float jumpSpeed = 0.2f;
+	private float jumpSpeed = 0.3f;
 	private float moveSpeed = 0.1f;
 	private long timeCount = 0;
 	private long lastTime = 0;
@@ -41,8 +41,6 @@ public class AGameMain implements GLEventListener, KeyListener {
 	public AGameMain(){
 		loadLevel(String.valueOf(currentLevel));
 	}
-
-
 
 	public static void main(String[] args) {
 		Frame frame = new Frame("~A Game~");
