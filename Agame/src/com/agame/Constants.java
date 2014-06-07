@@ -2,7 +2,7 @@ package com.agame;
 
 public class Constants {
 
-	private static float g = 0.1f;
+	private static float g = 0.15f;
 	private static float timeInt = 0.05f;
 	private static int twoDGridWidth = 30;
 	
@@ -21,4 +21,5 @@ public class Constants {
 	public static float timeInt(){
 		return timeInt;
 	}
+	
 }
